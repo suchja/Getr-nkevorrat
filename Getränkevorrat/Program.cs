@@ -19,7 +19,7 @@ namespace Getränkevorrat
                 while (weiter)
                 {
                     Console.Clear();
-                    Console.SetWindowSize(140, 62);
+                    //Console.SetWindowSize(140, 62);
                     MenueAnzeigen();
 
                     string auswahl = Console.ReadLine();
@@ -82,7 +82,7 @@ namespace Getränkevorrat
 
             finally
             {
-                Console.WriteLine("Das Programm wurde beendet!");
+                Console.WriteLine("Das Programm wird beendet!");
                 Console.ReadLine();
             }
         }
