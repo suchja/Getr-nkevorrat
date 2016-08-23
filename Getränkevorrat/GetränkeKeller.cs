@@ -56,6 +56,13 @@ namespace Getränkevorrat
                 Console.WriteLine("Es wurden {0} Flaschen entnommen", anzahl);
                 Console.ReadLine();
             }
+            else
+            {
+                Console.WriteLine("Der Bestand wurde nicht verändert!");
+                Console.ReadLine();
+                return;
+            }
+            DatenInDateiSchreiben();
         }
 
 
