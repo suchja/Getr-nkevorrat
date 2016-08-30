@@ -68,7 +68,7 @@ namespace Getränkevorrat
 
         public void DatenInListeEinlesen()
         {
-            string[] readText = File.ReadAllLines(@"c:\temp\getränkevorrat.txt");
+            string[] readText = File.ReadAllLines(@"Beispieldaten\getränkevorrat.txt");
             for (int i = 2; i < readText.Count(); i = i + 3)
             {
                 Flasche neueFlasche = new Flasche(Inhalt.leer);
@@ -96,7 +96,7 @@ namespace Getränkevorrat
                 pufferListe.Add(sort);
                 pufferListe.Add(vol);
             }
-            File.WriteAllLines(@"C:\Temp\GetränkeVorrat.txt", pufferListe);
+            File.WriteAllLines(@"Beispieldaten\getränkevorrat.txt", pufferListe);
         }
 
         public void BestandFilternNachSorte()
