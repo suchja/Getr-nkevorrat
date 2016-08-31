@@ -131,13 +131,28 @@ namespace Getränkevorrat
             Console.ReadLine();
         }
 
-        public int AnzahlBierFlaschen()
+        public int BerechneAnzahlBierFlaschen()
         {
             int anzahl = 0;
 
             foreach (Flasche flasche in getränkeListe)
             {
                 if (flasche.Inhalt == Inhalt.Bier)
+                {
+                    anzahl += 1;
+                }
+            }
+
+            return anzahl;
+        }
+
+        public int BerechneAnzahlWeinFlaschen()
+        {
+            int anzahl = 0;
+
+            foreach (Flasche flasche in getränkeListe)
+            {
+                if (flasche.Inhalt == Inhalt.Wein)
                 {
                     anzahl += 1;
                 }
