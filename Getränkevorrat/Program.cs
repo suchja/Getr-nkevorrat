@@ -58,7 +58,7 @@ namespace Getränkevorrat
                             break;
 
                         case "6":
-                            int anzahl = meinVorrat.BerechneAnzahlFlaschen(FlaschenInhaltIstBier);
+                            int anzahl = meinVorrat.BerechneAnzahlFlaschen(delegate(Flasche flasche) { return flasche.Inhalt == Inhalt.Bier; });
                             Console.WriteLine("Anzahl der Flaschen: {0}", anzahl);
                             Console.ReadLine();
                             break;
@@ -99,11 +99,6 @@ namespace Getränkevorrat
                 Console.WriteLine("Das Programm wird beendet!");
                 Console.ReadLine();
             }
-        }
-
-        static private bool FlaschenInhaltIstBier(Flasche flasche)
-        {
-            return flasche.Inhalt == Inhalt.Bier;
         }
 
         static public int AnwenderNachAnzahlFragen(string auswahl)
