@@ -57,6 +57,12 @@ namespace Getränkevorrat
                             meinVorrat.BestandFilternNachSorte();
                             break;
 
+                        case "6":
+                            int anzahl = meinVorrat.BerechneAnzahlFlaschen(FlaschenInhaltIstBier);
+                            Console.WriteLine("Anzahl der Flaschen: {0}", anzahl);
+                            Console.ReadLine();
+                            break;
+
                         case "E":
                         case "e":
                             Environment.Exit(0);
@@ -93,6 +99,11 @@ namespace Getränkevorrat
                 Console.WriteLine("Das Programm wird beendet!");
                 Console.ReadLine();
             }
+        }
+
+        static private bool FlaschenInhaltIstBier(Flasche flasche)
+        {
+            return flasche.Inhalt == Inhalt.Bier;
         }
 
         static public int AnwenderNachAnzahlFragen(string auswahl)
@@ -200,6 +211,8 @@ namespace Getränkevorrat
             Console.WriteLine("(4)  Bestand sortieren");
             Console.WriteLine(" ");
             Console.WriteLine("(5)  Bestand nach Sorte filtern");
+            Console.WriteLine(" ");
+            Console.WriteLine("(6)  Berechne Flaschenanzahl");
             Console.WriteLine(" ");
             Console.WriteLine("(E)  Ende ");
             Console.WriteLine(" ");
