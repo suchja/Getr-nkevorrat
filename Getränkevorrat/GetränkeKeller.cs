@@ -131,13 +131,17 @@ namespace Getränkevorrat
             Console.ReadLine();
         }
 
-        public int BerechneAnzahlFlaschen(Inhalt inhalt)
+        // Schritt #1 - Definition des "Typens" heißt in diesem Kontext Delegate
+        public delegate bool FlaschenVergleich(Flasche flasche);
+
+        // Schritt #2 - Verwenden des "Typens" als "Datentyp" für einen Parameter 
+        public int BerechneAnzahlFlaschen(FlaschenVergleich istBedingungErfuellt)
         {
             int anzahl = 0;
 
             foreach (Flasche flasche in getränkeListe)
             {
-                if (flasche.Inhalt == inhalt)
+                if (istBedingungErfuellt(flasche))
                 {
                     anzahl += 1;
                 }
@@ -146,20 +150,8 @@ namespace Getränkevorrat
             return anzahl;
         }
 
-        public int BerechneAnzahlFlaschen(Sorte sorte)
-        {
-            int anzahl = 0;
+        //Schritt #3 - "Wert" für den Parameter muss vom Aufrufer übergeben werden. (siehe Program.cs)
 
-            foreach (Flasche flasche in getränkeListe)
-            {
-                if (flasche.Sorte == sorte)
-                {
-                    anzahl += 1;
-                }
-            }
-
-            return anzahl;
-        }
 
 
         public void TestVorrat()
