@@ -17,7 +17,7 @@ namespace Getränkevorrat
 
     class Flasche
     {
-        public Inhalt Inhalt { get; set; }
+        public Inhalt Inhalt { get; private set; }
         public Sorte Sorte { get; set; }
         public Volumen Volumen { get; set; }
 

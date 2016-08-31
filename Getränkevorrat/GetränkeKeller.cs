@@ -13,47 +13,36 @@ namespace Getränkevorrat
         List<Flasche> getränkeListe = new List<Flasche>();
         List<Flasche> sortListe = new List<Flasche>();
         List<string> pufferListe = new List<string>();
-        private int anzahl;
-        private string getränkeAuswahl = "unbekannt";
-        private Inhalt auswahlInhalt = Inhalt.leer;
         private Flasche flasche = new Flasche(Inhalt.Bier);
 
-        public void VorratÄndern(string getrAuswahl)
+        public void VorratÄndern(Inhalt getrAuswahl, Volumen vol, Sorte sorte, int anz)
         {
-            getränkeAuswahl = getrAuswahl;
-            auswahlInhalt = (Inhalt)Enum.Parse(typeof(Inhalt), getrAuswahl);
-            anzahl = AnwenderNachAnzahlFragen(getränkeAuswahl);
+            Flasche neueFlasche = new Flasche(getrAuswahl);
+            neueFlasche.Sorte = sorte;
+            neueFlasche.Volumen = vol;
 
-            Flasche neueFlasche = new Flasche(auswahlInhalt);
-
-            AnwenderNachSorteFragen(getränkeAuswahl);
-            AnwenderNachVolumenFragen(getränkeAuswahl);
-
-            neueFlasche.Sorte = flasche.Sorte;
-            neueFlasche.Volumen = flasche.Volumen;
-
-            if (anzahl > 0)
+            if (anz > 0)
             {
-                for (int i = 0; i < anzahl; i++)
+                for (int i = 0; i < anz; i++)
                 {
                     getränkeListe.Add(neueFlasche);
                 }
             }
-            else if (anzahl < 0)
+            else if (anz < 0)
             {
                 List<Flasche> temp = getränkeListe.FindAll(x => (x.Sorte == neueFlasche.Sorte) && (x.Volumen == neueFlasche.Volumen));
-                anzahl = anzahl * (-1);
-                if (anzahl > temp.Count())
+                anz = anz * (-1);
+                if (anz > temp.Count())
                     throw new Exception("\n\nDas sollten Sie wissen: Von dieser Sorte sind nur noch " + temp.Count() + " Flaschen im Keller!\n\n");
                 getränkeListe.RemoveAll(x => (x.Sorte == neueFlasche.Sorte) && (x.Volumen == neueFlasche.Volumen));
 
-                for (int i = 0; i < anzahl; i++)
+                for (int i = 0; i < anz; i++)
                 {
-                    temp.RemoveAt(anzahl - i);
+                    temp.RemoveAt(anz - i);
                 }
                 getränkeListe.AddRange(temp);
 
-                Console.WriteLine("Es wurden {0} Flaschen entnommen", anzahl);
+                Console.WriteLine("Es wurden {0} Flaschen entnommen", anz);
                 Console.ReadLine();
             }
             else
@@ -65,23 +54,20 @@ namespace Getränkevorrat
             DatenInDateiSchreiben();
         }
 
-
         public void DatenInListeEinlesen()
         {
             string[] readText = File.ReadAllLines(@"Beispieldaten\getränkevorrat.txt");
             for (int i = 2; i < readText.Count(); i = i + 3)
             {
-                Flasche neueFlasche = new Flasche(Inhalt.leer);
+                //Flasche neueFlasche = new Flasche(Inhalt.leer);
                 Inhalt attribInhalt = (Inhalt)Enum.Parse(typeof(Inhalt), readText[i - 2]);
-                neueFlasche.Inhalt = attribInhalt;
+                Flasche neueFlasche = new Flasche(attribInhalt);
                 Sorte attribSorte = (Sorte)Enum.Parse(typeof(Sorte), readText[i - 1]);
                 neueFlasche.Sorte = attribSorte;
                 Volumen attribVolumen = (Volumen)Enum.Parse(typeof(Volumen), readText[i]);
                 neueFlasche.Volumen = attribVolumen;
                 getränkeListe.Add(neueFlasche);
             }
-
-
         }
 
         public void DatenInDateiSchreiben()
@@ -145,90 +131,6 @@ namespace Getränkevorrat
             Console.ReadLine();
         }
 
-        public int AnwenderNachAnzahlFragen(string auswahl)
-        {
-            if (auswahl == "Bier")
-            {
-                Console.WriteLine("Sie ändern nun den Bestand der Bierflaschen.");
-                Console.WriteLine("Bitte geben Sie die Anzahl ein (+ Bestand erhöhen / - Bestand verringern):");
-                return Convert.ToInt32(Console.ReadLine());
-            }
-            else
-            {
-                Console.WriteLine("Sie ändern nun den Bestand der Weinflaschen.");
-                Console.WriteLine("Bitte geben Sie die Anzahl ein (+ Bestand erhöhen / - Bestand verringern):");
-                return Convert.ToInt32(Console.ReadLine());
-            }
-
-        }
-
-        public void AnwenderNachSorteFragen(string auswahl)
-        {
-            if (auswahl == "Bier")
-            {
-                Console.WriteLine("Bitte geben Sie die Biersorte ein (Kölsch, Pils, Weizen):");
-                string sorte = Console.ReadLine();
-                if (sorte.ToLower() == "weizen")
-                    flasche.Sorte = Sorte.Weizen;
-                else if (sorte.ToLower() == "pils")
-                    flasche.Sorte = Sorte.Pils;
-                else if (sorte.ToLower() == "kölsch")
-                    flasche.Sorte = Sorte.Kölsch;
-                else
-                {
-                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Sorten sind erlaubt: Kölsch, Pils, Weizen, kölsch, pils, weizen  \n\n");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Bitte geben Sie die Weinsorte ein (Rot, Weiß, Rosé):");
-                string sorte = Console.ReadLine();
-                if (sorte.ToLower() == "rot")
-                    flasche.Sorte = Sorte.Rot;
-                else if (sorte.ToLower() == "weiß")
-                    flasche.Sorte = Sorte.Weiß;
-                else if (sorte.ToLower() == "rosé" || sorte.ToLower() == "rose")
-                    flasche.Sorte = Sorte.Rosé;
-                else
-                {
-                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Sorten sind erlaubt: Rot, Weiß, Rosé, Rose, rot, weiß, rosé, rose   \n\n");
-                }
-            }
-        }
-
-        public void AnwenderNachVolumenFragen(string auswahl)
-        {
-            if (auswahl == "Bier")
-            {
-                Console.WriteLine("Geben Sie jetzt die Füllmenge ein (333, 500, 5000): ");
-                string füllm = Console.ReadLine();
-                if (füllm.ToLower() == "333")
-                    flasche.Volumen = Volumen.ml_333;
-                else if (füllm.ToLower() == "500")
-                    flasche.Volumen = Volumen.ml_500;
-                else if (füllm.ToLower() == "5000")
-                    flasche.Volumen = Volumen.ml_5000;
-                else
-                {
-                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Füllmengen sind erlaubt: 333, 500, 5000 \n\n");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Geben Sie jetzt die Füllmenge ein (250, 500, 750): ");
-                string füllm = Console.ReadLine();
-                if (füllm.ToLower() == "250")
-                    flasche.Volumen = Volumen.ml_250;
-                else if (füllm.ToLower() == "500")
-                    flasche.Volumen = Volumen.ml_500;
-                else if (füllm.ToLower() == "750")
-                    flasche.Volumen = Volumen.ml_750;
-                else
-                {
-                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Füllmengen sind erlaubt: 250, 500, 750 \n\n");
-                }
-            }
-        }
 
         public void TestVorrat()
         {

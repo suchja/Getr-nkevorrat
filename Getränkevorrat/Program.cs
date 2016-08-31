@@ -21,19 +21,27 @@ namespace Getränkevorrat
                     Console.Clear();
                     //Console.SetWindowSize(140, 62);
                     MenueAnzeigen();
-
+                    Volumen vol;
+                    Sorte sorte;
+                    int anz;
                     string auswahl = Console.ReadLine();
 
                     switch (auswahl)
                     {
                         case "1":
                             // Mit Exception
-                            meinVorrat.VorratÄndern("Bier");
+                            anz = AnwenderNachAnzahlFragen("Bier");
+                            vol = AnwenderNachVolumenFragen("Bier");
+                            sorte = AnwenderNachSorteFragen("Bier");
+                            meinVorrat.VorratÄndern(Inhalt.Bier, vol, sorte, anz);
                             break;
 
                         case "2":
                             // Mit Exception
-                            meinVorrat.VorratÄndern("Wein");
+                            anz = AnwenderNachAnzahlFragen("Wein");
+                            vol = AnwenderNachVolumenFragen("Wein");
+                            sorte = AnwenderNachSorteFragen("Wein");
+                            meinVorrat.VorratÄndern(Inhalt.Wein, vol, sorte, anz);
                             break;
 
                         case "3":
@@ -85,6 +93,98 @@ namespace Getränkevorrat
                 Console.WriteLine("Das Programm wird beendet!");
                 Console.ReadLine();
             }
+        }
+
+        static public int AnwenderNachAnzahlFragen(string auswahl)
+        {
+            if (auswahl == "Bier")
+            {
+                Console.WriteLine("Sie ändern nun den Bestand der Bierflaschen.");
+                Console.WriteLine("Bitte geben Sie die Anzahl ein (+ Bestand erhöhen / - Bestand verringern):");
+                return Convert.ToInt32(Console.ReadLine());
+            }
+            else
+            {
+                Console.WriteLine("Sie ändern nun den Bestand der Weinflaschen.");
+                Console.WriteLine("Bitte geben Sie die Anzahl ein (+ Bestand erhöhen / - Bestand verringern):");
+                return Convert.ToInt32(Console.ReadLine());
+            }
+
+        }
+
+        static public Sorte AnwenderNachSorteFragen(string auswahl)
+        {
+            Sorte sorte;
+            String srt;
+            if (auswahl == "Bier")
+            {
+                Console.WriteLine("Bitte geben Sie die Biersorte ein (Kölsch, Pils, Weizen):");
+                srt = Console.ReadLine();
+                if (srt.ToLower() == "weizen")
+                    sorte = Sorte.Weizen;
+                else if (srt.ToLower() == "pils")
+                    sorte = Sorte.Pils;
+                else if (srt.ToLower() == "kölsch")
+                    sorte = Sorte.Kölsch;
+                else
+                {
+                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Sorten sind erlaubt: Kölsch, Pils, Weizen, kölsch, pils, weizen  \n\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Bitte geben Sie die Weinsorte ein (Rot, Weiß, Rosé):");
+                srt = Console.ReadLine();
+                if (srt.ToLower() == "rot")
+                    sorte = Sorte.Rot;
+                else if (srt.ToLower() == "weiß")
+                    sorte = Sorte.Weiß;
+                else if (srt.ToLower() == "rosé" || srt.ToLower() == "rose")
+                    sorte = Sorte.Rosé;
+                else
+                {
+                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Sorten sind erlaubt: Rot, Weiß, Rosé, Rose, rot, weiß, rosé, rose   \n\n");
+                }
+            }
+            return sorte;
+        }
+
+        static public Volumen AnwenderNachVolumenFragen(string auswahl)
+        {
+            Volumen größe;
+            string füllm;
+
+            if (auswahl == "Bier")
+            {
+                Console.WriteLine("Geben Sie jetzt die Füllmenge ein (333, 500, 5000): ");
+                füllm = Console.ReadLine();
+                if (füllm.ToLower() == "333")
+                    größe = Volumen.ml_333;
+                else if (füllm.ToLower() == "500")
+                    größe = Volumen.ml_500;
+                else if (füllm.ToLower() == "5000")
+                    größe = Volumen.ml_5000;
+                else
+                {
+                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Füllmengen sind erlaubt: 333, 500, 5000 \n\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Geben Sie jetzt die Füllmenge ein (250, 500, 750): ");
+                füllm = Console.ReadLine();
+                if (füllm.ToLower() == "250")
+                    größe = Volumen.ml_250;
+                else if (füllm.ToLower() == "500")
+                    größe = Volumen.ml_500;
+                else if (füllm.ToLower() == "750")
+                    größe = Volumen.ml_750;
+                else
+                {
+                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Füllmengen sind erlaubt: 250, 500, 750 \n\n");
+                }
+            }
+            return größe;
         }
 
         static public void MenueAnzeigen()
