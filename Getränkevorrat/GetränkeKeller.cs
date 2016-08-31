@@ -146,6 +146,22 @@ namespace Getränkevorrat
             return anzahl;
         }
 
+        public int BerechneAnzahlFlaschen(Sorte sorte)
+        {
+            int anzahl = 0;
+
+            foreach (Flasche flasche in getränkeListe)
+            {
+                if (flasche.Sorte == sorte)
+                {
+                    anzahl += 1;
+                }
+            }
+
+            return anzahl;
+        }
+
+
         public void TestVorrat()
         {
             TestVorratAnlegen(Inhalt.Bier, 10, Sorte.Kölsch, Volumen.ml_333);
