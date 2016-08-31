@@ -58,7 +58,7 @@ namespace Getränkevorrat
                             break;
 
                         case "6":
-                            int anzahl = meinVorrat.BerechneAnzahlFlaschen(flasche => flasche.Inhalt == Inhalt.Bier);
+                            int anzahl = meinVorrat.BerechneAnzahlFlaschen(flasche => flasche.Sorte == Sorte.Kölsch);
                             Console.WriteLine("Anzahl der Flaschen: {0}", anzahl);
                             Console.ReadLine();
                             break;
