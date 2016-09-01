@@ -70,6 +70,8 @@ namespace Getränkevorrat
             }
         }
 
+
+
         public void DatenInDateiSchreiben()
         {
             getränkeListe.Count();

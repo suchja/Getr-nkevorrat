@@ -31,16 +31,16 @@ namespace Getränkevorrat
                         case "1":
                             // Mit Exception
                             anz = AnwenderNachAnzahlFragen("Bier");
-                            vol = AnwenderNachVolumenFragen("Bier");
-                            sorte = AnwenderNachSorteFragen("Bier");
+                            vol = AnwenderNachVolumenFragen();
+                            sorte = AnwenderNachSorteFragen();
                             meinVorrat.VorratÄndern(Inhalt.Bier, vol, sorte, anz);
                             break;
 
                         case "2":
                             // Mit Exception
                             anz = AnwenderNachAnzahlFragen("Wein");
-                            vol = AnwenderNachVolumenFragen("Wein");
-                            sorte = AnwenderNachSorteFragen("Wein");
+                            vol = AnwenderNachVolumenFragen();
+                            sorte = AnwenderNachSorteFragen();
                             meinVorrat.VorratÄndern(Inhalt.Wein, vol, sorte, anz);
                             break;
 
@@ -94,7 +94,55 @@ namespace Getränkevorrat
                 Console.ReadLine();
             }
         }
+        
+        static private Sorte sorteInStringKonvertieren(string sorte)
+        {
+            switch (sorte.ToLower())
+            {
+                case "kölsch":
+                    return Sorte.Kölsch;
+                case "pils":
+                    return Sorte.Pils;
+                case "weizen":
+                    return Sorte.Weizen;
+                case "weiß":
+                    return Sorte.Weiß;
+                case "rot":
+                    return Sorte.Rot;
+                case "rose":
+                case "rosé":
+                    return Sorte.Rosé;
+                case "unbekannt":
+                    return Sorte.unbekannt;
+                default:
+                    Console.WriteLine("Hier liegt ein Fehler vor - Exception fehlt noch");
+                    return Sorte.unbekannt;
+            }
+        }
+        
+        static private Volumen volumenInStringKonvertieren(String volumen)
+        {
+            switch (volumen.ToLower())
+            { 
+                case "250":
+                    return Volumen.ml_250;
+                case "333":
+                    return Volumen.ml_333;
+                case "500":
+                    return Volumen.ml_500;
+                case "750":
+                    return Volumen.ml_750;
+                case "5000":
+                    return Volumen.ml_5000;
+                case "unbekannt":
+                    return Volumen.unbekannt;
+                default:
+                    Console.WriteLine("Hier liegt ein Fehler vor - Exception fehlt noch");
+                    return Volumen.unbekannt;
+            }
+        }
 
+        
         static public int AnwenderNachAnzahlFragen(string auswahl)
         {
             if (auswahl == "Bier")
@@ -112,81 +160,21 @@ namespace Getränkevorrat
 
         }
 
-        static public Sorte AnwenderNachSorteFragen(string auswahl)
+        static public Sorte AnwenderNachSorteFragen()
         {
-            Sorte sorte;
-            String srt;
-            if (auswahl == "Bier")
-            {
-                Console.WriteLine("Bitte geben Sie die Biersorte ein (Kölsch, Pils, Weizen):");
-                srt = Console.ReadLine();
-                if (srt.ToLower() == "weizen")
-                    sorte = Sorte.Weizen;
-                else if (srt.ToLower() == "pils")
-                    sorte = Sorte.Pils;
-                else if (srt.ToLower() == "kölsch")
-                    sorte = Sorte.Kölsch;
-                else
-                {
-                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Sorten sind erlaubt: Kölsch, Pils, Weizen, kölsch, pils, weizen  \n\n");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Bitte geben Sie die Weinsorte ein (Rot, Weiß, Rosé):");
-                srt = Console.ReadLine();
-                if (srt.ToLower() == "rot")
-                    sorte = Sorte.Rot;
-                else if (srt.ToLower() == "weiß")
-                    sorte = Sorte.Weiß;
-                else if (srt.ToLower() == "rosé" || srt.ToLower() == "rose")
-                    sorte = Sorte.Rosé;
-                else
-                {
-                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Sorten sind erlaubt: Rot, Weiß, Rosé, Rose, rot, weiß, rosé, rose   \n\n");
-                }
-            }
-            return sorte;
+            Console.WriteLine("Bitte geben Sie die Sorte ein \nBier: Kölsch, Pils, Weizen \nWein: Rot, Weiß, Rosé\n");
+            string sorte = Console.ReadLine();
+            return sorteInStringKonvertieren(sorte);
         }
 
-        static public Volumen AnwenderNachVolumenFragen(string auswahl)
+        static public Volumen AnwenderNachVolumenFragen()
         {
-            Volumen größe;
-            string füllm;
-
-            if (auswahl == "Bier")
-            {
-                Console.WriteLine("Geben Sie jetzt die Füllmenge ein (333, 500, 5000): ");
-                füllm = Console.ReadLine();
-                if (füllm.ToLower() == "333")
-                    größe = Volumen.ml_333;
-                else if (füllm.ToLower() == "500")
-                    größe = Volumen.ml_500;
-                else if (füllm.ToLower() == "5000")
-                    größe = Volumen.ml_5000;
-                else
-                {
-                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Füllmengen sind erlaubt: 333, 500, 5000 \n\n");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Geben Sie jetzt die Füllmenge ein (250, 500, 750): ");
-                füllm = Console.ReadLine();
-                if (füllm.ToLower() == "250")
-                    größe = Volumen.ml_250;
-                else if (füllm.ToLower() == "500")
-                    größe = Volumen.ml_500;
-                else if (füllm.ToLower() == "750")
-                    größe = Volumen.ml_750;
-                else
-                {
-                    throw new Exception("\n\nFehlerhafte Eingabe! \n\nNur die folgenden Füllmengen sind erlaubt: 250, 500, 750 \n\n");
-                }
-            }
-            return größe;
+            Console.WriteLine("Geben Sie jetzt die Füllmenge ein\nBier: 333, 500, 5000  \nWein: 250, 500, 750\n");
+            string füllmenge = Console.ReadLine();
+            return volumenInStringKonvertieren(füllmenge);
         }
 
+ 
         static public void MenueAnzeigen()
         {
             Console.WriteLine("*****  Getränkevorrat (Bier und Wein)  *****");
