@@ -13,6 +13,7 @@ namespace Getränkevorrat
             try
             {
                 GetränkeKeller meinVorrat = new GetränkeKeller();
+                meinVorrat.Geandert += GeaendertenGetraenkeKellerAnzeigen;
                 meinVorrat.DatenInListeEinlesen();
                 bool weiter = true;
 
@@ -127,6 +128,12 @@ namespace Getränkevorrat
                 }
             }
             Console.ReadLine();
+        }
+
+        static public void GeaendertenGetraenkeKellerAnzeigen(object sender, GetraenkeKellerEventArgs e)
+        {
+            IEnumerable<Flasche> flaschen = e.AktuellerInhalt;
+            FlaschenAnzeigen(flaschen);
         }
 
         static public int AnwenderNachAnzahlFragen(string auswahl)

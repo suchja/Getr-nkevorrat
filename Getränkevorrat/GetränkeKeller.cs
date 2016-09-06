@@ -7,6 +7,16 @@ using System.Threading.Tasks;
 
 namespace Getränkevorrat
 {
+    // Schritt 0 (optional) - Eigene Eventinformationen definieren
+    class GetraenkeKellerEventArgs : EventArgs
+    {
+        public GetraenkeKellerEventArgs(IEnumerable<Flasche> flaschen)
+        {
+            AktuellerInhalt = flaschen;
+        }
+
+        public IEnumerable<Flasche> AktuellerInhalt { get; private set; }
+    }
 
     class GetränkeKeller
     {
@@ -14,6 +24,20 @@ namespace Getränkevorrat
         List<Flasche> sortListe = new List<Flasche>();
         List<string> pufferListe = new List<string>();
         private Flasche flasche = new Flasche(Inhalt.Bier);
+
+        // Schritt 1 - Delegate definieren, oder vorhandenen nutzen!
+        public delegate void GeaendertEventHandler(object sender, GetraenkeKellerEventArgs e);
+        // Schritt 2 - Event definieren
+        public event GeaendertEventHandler Geandert;
+        // Schritt 3 (optional) - Methode zum auslösen des Events definieren
+        private void OnAenderung()
+        {
+            if (Geandert != null)
+            {
+                GetraenkeKellerEventArgs args = new GetraenkeKellerEventArgs(getränkeListe);
+                Geandert(this, args);
+            }
+        }
 
         public void VorratÄndern(Inhalt getrAuswahl, Volumen vol, Sorte sorte, int anz)
         {
@@ -27,6 +51,8 @@ namespace Getränkevorrat
                 {
                     getränkeListe.Add(neueFlasche);
                 }
+                // Schritt 4 - Event über eigene Methode auslösen, wenn Bedingung erfüllt.
+                OnAenderung();
             }
             else if (anz < 0)
             {
@@ -42,8 +68,8 @@ namespace Getränkevorrat
                 }
                 getränkeListe.AddRange(temp);
 
-                Console.WriteLine("Es wurden {0} Flaschen entnommen", anz);
-                Console.ReadLine();
+                // Schritt 4 - Event über eigene Methode auslösen, wenn Bedingung erfüllt.
+                OnAenderung();
             }
             else
             {
@@ -68,6 +94,8 @@ namespace Getränkevorrat
                 neueFlasche.Volumen = attribVolumen;
                 getränkeListe.Add(neueFlasche);
             }
+            // Schritt 4 - Event über eigene Methode auslösen, wenn Bedingung erfüllt.
+            OnAenderung();
         }
 
         public void DatenInDateiSchreiben()
@@ -107,6 +135,8 @@ namespace Getränkevorrat
             BestandSort(Sorte.Rosé);
             getränkeListe.Clear();
             getränkeListe.AddRange(sortListe);
+            // Schritt 4 - Event über eigene Methode auslösen, wenn Bedingung erfüllt.
+            OnAenderung();
         }
         private void BestandSort(Sorte sor)
         {
@@ -129,7 +159,8 @@ namespace Getränkevorrat
             TestVorratAnlegen(Inhalt.Wein, 10, Sorte.Rot, Volumen.ml_750);
             TestVorratAnlegen(Inhalt.Bier, 10, Sorte.Pils, Volumen.ml_333);
             TestVorratAnlegen(Inhalt.Wein, 10, Sorte.Rot, Volumen.ml_250);
-            //VorratAnzeigen();
+            // Schritt 4 - Event über eigene Methode auslösen, wenn Bedingung erfüllt.
+            OnAenderung();
         }
         private void TestVorratAnlegen(Inhalt inh, int anz, Sorte sort, Volumen vol)
         {
