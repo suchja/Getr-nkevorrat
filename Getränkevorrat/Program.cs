@@ -54,7 +54,7 @@ namespace Getränkevorrat
 
                         case "5":
                             // Mit Exception
-                            meinVorrat.BestandFilternNachSorte();
+                            meinVorrat.BestandFilternNachSorte(BenutzerFragen);
                             break;
 
                         case "E":
@@ -93,6 +93,16 @@ namespace Getränkevorrat
                 Console.WriteLine("Das Programm wird beendet!");
                 Console.ReadLine();
             }
+        }
+
+        static public string BenutzerFragen(string frage)
+        {
+            string antwort = string.Empty;
+
+            Console.WriteLine(frage);
+            antwort = Console.ReadLine();
+
+            return antwort;
         }
 
         static public int AnwenderNachAnzahlFragen(string auswahl)

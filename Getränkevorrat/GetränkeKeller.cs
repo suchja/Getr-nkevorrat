@@ -85,10 +85,12 @@ namespace Getränkevorrat
             File.WriteAllLines(@"Beispieldaten\getränkevorrat.txt", pufferListe);
         }
 
-        public void BestandFilternNachSorte()
+        public delegate string BenutzerEingabeHolen(string anweisung);
+
+        public void BestandFilternNachSorte(BenutzerEingabeHolen benutzerFragen)
         {
-            Console.WriteLine("Bitte die gewünschte Sorte eingeben (Rot, Weiß, Rosé (oder Rose), Kölsch, Pils, Weizen): ");
-            string sor = Console.ReadLine();
+            string frage = "Bitte die gewünschte Sorte eingeben (Rot, Weiß, Rosé (oder Rose), Kölsch, Pils, Weizen): ";
+            string sor = benutzerFragen(frage);
             Sorte sort = (Sorte)Enum.Parse(typeof(Sorte), sor);
             List<Flasche> teilLIste = getränkeListe.FindAll(x => x.Sorte == sort);
             foreach (var item in teilLIste)
