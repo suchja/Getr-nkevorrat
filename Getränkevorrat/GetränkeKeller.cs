@@ -87,17 +87,14 @@ namespace Getränkevorrat
 
         public delegate string BenutzerEingabeHolen(string anweisung);
 
-        public void BestandFilternNachSorte(BenutzerEingabeHolen benutzerFragen)
+        public IEnumerable<Flasche> BestandFilternNachSorte(BenutzerEingabeHolen benutzerFragen)
         {
             string frage = "Bitte die gewünschte Sorte eingeben (Rot, Weiß, Rosé (oder Rose), Kölsch, Pils, Weizen): ";
             string sor = benutzerFragen(frage);
             Sorte sort = (Sorte)Enum.Parse(typeof(Sorte), sor);
             List<Flasche> teilLIste = getränkeListe.FindAll(x => x.Sorte == sort);
-            foreach (var item in teilLIste)
-            {
-                Console.WriteLine(item);
-            }
-            Console.ReadLine();
+
+            return teilLIste;
         }
 
         public void BestandSortieren()

@@ -54,7 +54,9 @@ namespace Getränkevorrat
 
                         case "5":
                             // Mit Exception
-                            meinVorrat.BestandFilternNachSorte(BenutzerFragen);
+                            IEnumerable<Flasche> flaschenEinerSorte;
+                            flaschenEinerSorte = meinVorrat.BestandFilternNachSorte(BenutzerFragen);
+                            FlaschenAnzeigen(flaschenEinerSorte);
                             break;
 
                         case "E":
@@ -103,6 +105,26 @@ namespace Getränkevorrat
             antwort = Console.ReadLine();
 
             return antwort;
+        }
+
+        static public void FlaschenAnzeigen(IEnumerable<Flasche> liste)
+        {
+            if (liste == null)
+            {
+                Console.WriteLine("Wenn du mir nichts gibst, dann kann ich dir auch nichts ausgeben!");
+            }
+            else if (liste.Count() == 0)
+            {
+                Console.WriteLine("Es sind keine Flaschen enthalten!");
+            }
+            else
+            {
+                foreach (var item in liste)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+            Console.ReadLine();
         }
 
         static public int AnwenderNachAnzahlFragen(string auswahl)
