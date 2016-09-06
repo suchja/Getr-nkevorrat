@@ -115,19 +115,9 @@ namespace Getränkevorrat
             sortListe.AddRange(tempListe);
         }
 
-        public void VorratAnzeigen()
+        public IEnumerable<Flasche> VorratAbfragen()
         {
-            if (getränkeListe.Count == 0)
-            {
-                Console.WriteLine("Alle Flaschen sind leer. Bitte Nachschub besorgen!!!");
-                Console.ReadLine();
-                return;
-            }
-            foreach (var item in getränkeListe)
-            {
-                Console.WriteLine(item);
-            }
-            Console.ReadLine();
+            return getränkeListe;
         }
 
 
@@ -139,7 +129,7 @@ namespace Getränkevorrat
             TestVorratAnlegen(Inhalt.Wein, 10, Sorte.Rot, Volumen.ml_750);
             TestVorratAnlegen(Inhalt.Bier, 10, Sorte.Pils, Volumen.ml_333);
             TestVorratAnlegen(Inhalt.Wein, 10, Sorte.Rot, Volumen.ml_250);
-            VorratAnzeigen();
+            //VorratAnzeigen();
         }
         private void TestVorratAnlegen(Inhalt inh, int anz, Sorte sort, Volumen vol)
         {

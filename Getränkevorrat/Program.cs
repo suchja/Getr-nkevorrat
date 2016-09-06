@@ -45,7 +45,9 @@ namespace Getränkevorrat
                             break;
 
                         case "3":
-                            meinVorrat.VorratAnzeigen();
+                            IEnumerable<Flasche> alleFlaschen;
+                            alleFlaschen = meinVorrat.VorratAbfragen();
+                            FlaschenAnzeigen(alleFlaschen);
                             break;
 
                         case "4":
